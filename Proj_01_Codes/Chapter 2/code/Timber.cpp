@@ -1,17 +1,16 @@
 // Include important C++ libraries here
-#include "stdafx.h"
 #include <SFML/Graphics.hpp>
 
 // Make code easier to type with "using namespace"
 using namespace sf;
 
-int main()
+int main(int argc, char *argv[])
 {
 	// Create a video mode object
 	VideoMode vm(1920, 1080);
 
 	// Create and open a window for the game
-	RenderWindow window(vm, "Timber!!!", Style::Fullscreen);
+	RenderWindow window(vm, "Timber!!!", Style::Default);
 
 	// Create a texture to hold a graphic on the GPU
 	Texture textureBackground;
@@ -47,7 +46,7 @@ int main()
 
 	// How fast can the bee fly
 	float beeSpeed = 0.0f;
-	
+
 	// make 3 cloud sprites from 1 texture
 	Texture textureCloud;
 
@@ -82,16 +81,23 @@ int main()
 
 	while (window.isOpen())
 	{
-		
+
 		/*
 		****************************************
 		Handle the players input
 		****************************************
 		*/
 
-		if (Keyboard::isKeyPressed(Keyboard::Escape))
+		Event event;
+		while (window.pollEvent(event))
 		{
-			window.close();
+			if (event.type == sf::Event::Closed)
+				window.close();
+
+			if (Keyboard::isKeyPressed(Keyboard::Escape))
+			{
+				window.close();
+			}
 		}
 
 		/*
@@ -109,21 +115,20 @@ int main()
 			// How fast is the bee
 			srand((int)time(0) * 10);
 			beeSpeed = (rand() % 200) + 200;
-			
+
 			// How high is the bee
 			srand((int)time(0) * 10);
 			float height = (rand() % 500) + 500;
 			spriteBee.setPosition(2000, height);
 			beeActive = true;
-
 		}
 		else
-			// Move the bee
+		// Move the bee
 		{
 
 			spriteBee.setPosition(
 				spriteBee.getPosition().x -
-				(beeSpeed * dt.asSeconds()),
+					(beeSpeed * dt.asSeconds()),
 				spriteBee.getPosition().y);
 
 			// Has the bee reached the right hand edge of the screen?
@@ -148,15 +153,13 @@ int main()
 			float height = (rand() % 150);
 			spriteCloud1.setPosition(-200, height);
 			cloud1Active = true;
-
-
 		}
 		else
 		{
 
 			spriteCloud1.setPosition(
 				spriteCloud1.getPosition().x +
-				(cloud1Speed * dt.asSeconds()),
+					(cloud1Speed * dt.asSeconds()),
 				spriteCloud1.getPosition().y);
 
 			// Has the cloud reached the right hand edge of the screen?
@@ -179,15 +182,13 @@ int main()
 			float height = (rand() % 300) - 150;
 			spriteCloud2.setPosition(-200, height);
 			cloud2Active = true;
-
-
 		}
 		else
 		{
 
 			spriteCloud2.setPosition(
 				spriteCloud2.getPosition().x +
-				(cloud2Speed * dt.asSeconds()),
+					(cloud2Speed * dt.asSeconds()),
 				spriteCloud2.getPosition().y);
 
 			// Has the cloud reached the right hand edge of the screen?
@@ -210,15 +211,13 @@ int main()
 			float height = (rand() % 450) - 150;
 			spriteCloud3.setPosition(-200, height);
 			cloud3Active = true;
-
-
 		}
 		else
 		{
 
 			spriteCloud3.setPosition(
 				spriteCloud3.getPosition().x +
-				(cloud3Speed * dt.asSeconds()),
+					(cloud3Speed * dt.asSeconds()),
 				spriteCloud3.getPosition().y);
 
 			// Has the cloud reached the right hand edge of the screen?
@@ -228,8 +227,6 @@ int main()
 				cloud3Active = false;
 			}
 		}
-
-
 
 		/*
 		****************************************
@@ -256,11 +253,7 @@ int main()
 
 		// Show everything we just drew
 		window.display();
-
-
 	}
 
 	return 0;
 }
-
-
